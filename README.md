@@ -2,9 +2,6 @@
 
 A charming and fully responsive single-page website designed for the "Six Sense" kindergarten. This project features a playful, animated user interface built with modern web technologies to create a welcoming experience for parents and prospective students.
 
-![Six Sense Preschool Website Screenshot](https://i.imgur.com/Kz9Y1hX.png)
-*(**Note**: You should replace this placeholder image with a real screenshot of your website!)*
-
 ---
 
 ## ✨ Key Features
@@ -61,9 +58,4 @@ You need to have [Node.js](https://nodejs.org/) (which includes npm) installed o
 
 The application will be available at `http://localhost:5173`.
 
----
 
-## 👤 Author
-
--   **Athiban**
--   GitHub: [@Athiban-32](https://github.com/Athiban-32)
