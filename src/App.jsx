@@ -10,6 +10,7 @@ import OurBranches from './components/Contact/Branches';
 import AdmissionsSection from './components/Application/ApplicationSteps';
 import Footer from './components/Footer/Footer';
 import ContactForm from './components/Contact/ContactForm';
+import GallerySection from './components/Gallery/Gallery';
 
 // ==== HELPER COMPONENTS ====
 const WavyDivider = ({ top = false, color = "#F0F8FF" }) => (
@@ -21,28 +22,7 @@ const WavyDivider = ({ top = false, color = "#F0F8FF" }) => (
 );
 
 // ==== GALLERY SECTION (WITH CREATIVE HOVER) ====
-const Gallery = () => {
-    const images = [ 'https://www.parents.com/thmb/595334Wl0HQnRAxfMv6Fy7bf9ME=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/shutterstock_172261862-2--d36510500ca044e1bd9bb51f798b3141.jpg','https://www.unicef.org/montenegro/sites/unicef.org.montenegro/files/styles/hero_extended/public/his_sofija-05-19-235_0.jpg.webp?itok=O4m03gxg','https://www.ballarat.vic.gov.au/sites/default/files/styles/content_header_large_1000_x_640/public/page/field_image/2025-02/shutterstock_2420206409.jpg','https://www.care.com/c/wp-content/uploads/sites/2/2022/08/GettyImages-109374459.jpg','https://media.istockphoto.com/id/1458807880/photo/learning-through-play.jpg?s=612x612&w=0&k=20&c=W6mHfbgZXfGF4UbYn3FqP4BN_347dLD5Q9RvB6Yx1SQ=','https://img.freepik.com/premium-photo/group-children-are-laying-rug-with-word-happy-it_1045911-5336.jpg' ];
-    return (
-        <section id="gallery" className="py-20 bg-light-bg relative">
-             <WavyDivider top />
-            <div className="container mx-auto px-6 mt-12">
-                <AnimatedSection>
-                    <h2 className="text-3xl md:text-4xl font-nunito font-bold text-center mb-12 text-brand-purple">Our Joyful Moments</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        {images.map((src, i) => (
-                            // NEW: Added a colorful border on hover for more pop
-                            <motion.div key={i} className="overflow-hidden rounded-xl shadow-lg relative group" whileHover={{ scale: 1.05, rotate: i % 2 === 0 ? 2 : -2, zIndex: 10 }} transition={{ type: 'spring', stiffness: 300 }}>
-                                <div className="absolute inset-0 border-4 border-transparent group-hover:border-sunny-yellow rounded-xl transition-all duration-300"></div>
-                                <img src={src} alt={`Gallery ${i + 1}`} className="w-full h-full object-cover aspect-square rounded-lg" />
-                            </motion.div>
-                        ))}
-                    </div>
-                </AnimatedSection>
-            </div>
-        </section>
-    );
-};
+
 
 
 // ==== MAIN APP COMPONENT ====
@@ -56,7 +36,7 @@ function App() {
         <AboutSection/>
         <About />
         <OurPrograms />
-        <Gallery />
+        <GallerySection />
         <OurBranches/>
         <AdmissionsSection/>
         <ContactForm />

@@ -12,57 +12,6 @@ import {
 import { FaChild } from 'react-icons/fa';
 
 /**
- * NEW: The 3-Button CTA Section
- * This component uses colorful, card-style buttons for high visibility.
- */
-const CtaButtonSection = () => {
-  return (
-    <div className='grid grid-cols-1 md:grid-cols-3 gap-6 text-center mb-16 md:mb-20'>
-      {/* CTA 1: Admissions Open Now */}
-      <motion.a
-        href='#admissions' // <-- Add your link here
-        className='block' // Makes the entire card clickable
-        whileHover={{ scale: 1.05, y: -5 }}
-        transition={{ type: 'spring', stiffness: 300 }}
-      >
-        <div className='bg-pink-500 hover:bg-pink-600 text-white p-6 rounded-2xl shadow-lg h-full flex flex-col justify-center items-center min-h-[150px]'>
-          <FiClipboard size={32} className='mb-2' />
-          <h3 className='text-xl font-nunito font-bold'>Admissions Open Now</h3>
-        </div>
-      </motion.a>
-
-      {/* CTA 2: Book a Visit */}
-      <motion.a
-        href='#book-visit' // <-- Add your link here
-        className='block'
-        whileHover={{ scale: 1.05, y: -5 }}
-        transition={{ type: 'spring', stiffness: 300 }}
-      >
-        <div className='bg-green-500 hover:bg-green-600 text-white p-6 rounded-2xl shadow-lg h-full flex flex-col justify-center items-center min-h-[150px]'>
-          <FiCalendar size={32} className='mb-2' />
-          <h3 className='text-xl font-nunito font-bold'>Book a Visit</h3>
-        </div>
-      </motion.a>
-
-      {/* CTA 3: Know More About Our Schools */}
-      <motion.a
-        href='#about-schools' // <-- Add your link here
-        className='block'
-        whileHover={{ scale: 1.05, y: -5 }}
-        transition={{ type: 'spring', stiffness: 300 }}
-      >
-        <div className='bg-yellow-500 hover:bg-yellow-600 text-white p-6 rounded-2xl shadow-lg h-full flex flex-col justify-center items-center min-h-[150px]'>
-          <FiBookOpen size={32} className='mb-2' />
-          <h3 className='text-xl font-nunito font-bold'>
-            Know More About Our Schools
-          </h3>
-        </div>
-      </motion.a>
-    </div>
-  );
-};
-
-/**
  * YOUR FULL SECTION: Includes the new CTAs and your existing Mission/Vision
  */
 const AboutSection = () => {
@@ -70,14 +19,23 @@ const AboutSection = () => {
     // We wrap the whole section in a light background color for separation
     <div className='py-16 md:py-24 bg-sky-50'>
       <div className='container mx-auto px-6'>
-        {/* === NEW CTA BUTTONS === */}
-        <CtaButtonSection />
+        {/* === NEW: Motto as Headline === */}
+        <div className='text-center mb-16'>
+          <h2 className='text-3xl md:text-4xl font-nunito font-bold text-indigo-700 mb-3'>
+            Our Core Values
+          </h2>
+          <p className='text-xl text-gray-600 font-semibold italic'>
+            “Learning through love, laughter, and discovery.”
+          </p>
+          <div className='w-24 h-1 bg-yellow-400 mx-auto mt-4'></div>
+        </div>
 
-        {/* === YOUR EXISTING MISSION/VISION SECTION === */}
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-8 text-center'>
+        {/* === UPDATED: Combined Grid === */}
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-8 text-center items-stretch'>
+          {/* --- Card 1: Mission (Unchanged) --- */}
           <motion.div
             whileHover={{ y: -10, scale: 1.03 }}
-            className='bg-white p-6 rounded-2xl shadow-lg border-b-4 border-pink-400'
+            className='bg-white p-6 rounded-2xl shadow-lg border-b-4 border-pink-400 flex flex-col'
           >
             <FiHeart className='text-pink-400 mx-auto' size={40} />
             <h3 className='text-2xl font-nunito font-bold text-indigo-700 my-2'>
@@ -89,9 +47,10 @@ const AboutSection = () => {
             </p>
           </motion.div>
 
+          {/* --- Card 2: Vision (Updated Text) --- */}
           <motion.div
             whileHover={{ y: -10, scale: 1.03 }}
-            className='bg-white p-6 rounded-2xl shadow-lg border-b-4 border-green-500'
+            className='bg-white p-6 rounded-2xl shadow-lg border-b-4 border-green-500 flex flex-col'
           >
             <FiSmile className='text-green-500 mx-auto' size={40} />
             <h3 className='text-2xl font-nunito font-bold text-indigo-700 my-2'>
@@ -103,17 +62,47 @@ const AboutSection = () => {
             </p>
           </motion.div>
 
+          {/* --- Card 3: NEW "Get Started" Card --- */}
           <motion.div
             whileHover={{ y: -10, scale: 1.03 }}
-            className='bg-white p-6 rounded-2xl shadow-lg border-b-4 border-yellow-400'
+            className='bg-white p-6 rounded-2xl shadow-lg border-b-4 border-yellow-400 flex flex-col'
           >
-            <FaChild className='text-yellow-400 mx-auto' size={40} />
+            <FiBookOpen className='text-yellow-400 mx-auto' size={40} />
             <h3 className='text-2xl font-nunito font-bold text-indigo-700 my-2'>
-              Motto
+              Get Started
             </h3>
-            <p className='text-gray-600'>
-              “Learning through love, laughter, and discovery.”
+            <p className='text-gray-600 mb-6'>
+              Explore our programs or book a tour to see our campus in person.
             </p>
+
+            {/* CTA Buttons INSIDE the card */}
+            <div className='flex flex-col gap-3 mt-auto'>
+              <motion.a
+                href='#admissions'
+                className='block'
+                whileHover={{ scale: 1.03 }}
+              >
+                <div className='bg-pink-500 hover:bg-pink-600 text-white p-3 rounded-lg shadow-md h-full flex items-center justify-center'>
+                  <FiClipboard size={20} className='mr-2' />
+                  <span className='text-lg font-nunito font-bold'>
+                    Admissions Open
+                  </span>
+                </div>
+              </motion.a>
+
+              <motion.a
+                href='#contact'
+                className='block'
+                whileHover={{ scale: 1.03 }}
+              >
+                <div className='bg-green-500 hover:bg-green-600 text-white p-3 rounded-lg shadow-md h-full flex items-center justify-center'>
+                  <FiCalendar size={20} className='mr-2' />
+                  <span className='text-lg font-nunito font-bold'>
+                    Book a Visit
+                  </span>
+                </div>
+              </motion.a>
+            </div>
           </motion.div>
         </div>
       </div>
