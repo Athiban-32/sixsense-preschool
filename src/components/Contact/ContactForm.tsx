@@ -44,11 +44,6 @@ const ContactForm = () => {
                   <a href='tel:+917506030742' className='hover:underline'>
                     75060 30742
                   </a>{' '}
-                  /
-                  <a href='tel:+919820285892' className='hover:underline'>
-                    {' '}
-                    98202 85892
-                  </a>
                 </span>
               </div>
             </div>
@@ -155,11 +150,6 @@ const ContactForm = () => {
                   <a href='tel:+917506030742' className='hover:underline'>
                     75060 30742
                   </a>{' '}
-                  /
-                  <a href='tel:+919820285892' className='hover:underline'>
-                    {' '}
-                    98202 85892
-                  </a>
                 </span>
               </p>
 

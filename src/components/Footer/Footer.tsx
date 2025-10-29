@@ -72,10 +72,6 @@ const Footer = () => {
                   <a href='tel:+917506030742' className='hover:text-white'>
                     +91 75060 30742
                   </a>
-                  <br />
-                  <a href='tel:+919820285892' className='hover:text-white'>
-                    +91 98202 85892
-                  </a>
                 </div>
               </li>
               <li className='flex items-center'>
