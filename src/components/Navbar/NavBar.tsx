@@ -34,18 +34,26 @@ const Navbar = () => {
       <HeaderCloud className='right-10 hidden md:block' delay={1} />
 
       <div className='container mx-auto px-6 py-3 flex justify-between items-center relative z-10'>
+        {/* --- MODIFIED: Added Logo --- */}
         <a
           href='#'
-          className='text-2xl font-nunito font-extrabold text-brand-purple'
+          className='flex items-center text-2xl font-nunito font-extrabold text-indigo-700' // Changed text color
         >
+          <img
+            src='/logo.png' // Path from public folder
+            alt='Six Sense Preschool Logo'
+            className='h-10 w-auto mr-2' // Adjust height as needed
+          />
           Six Sense
         </a>
+        {/* --- End Logo Modification --- */}
+
         <div className='hidden md:flex space-x-6 items-center'>
           {navLinks.map((link) => (
             <a
               key={link}
               href={`#${link.toLowerCase().replace(' ', '')}`}
-              className='text-gray-600 hover:text-brand-purple transition-colors duration-300 font-semibold'
+              className='text-gray-600 hover:text-indigo-700 transition-colors duration-300 font-semibold' // Changed hover color
             >
               {link}
             </a>
@@ -54,14 +62,14 @@ const Navbar = () => {
             <motion.button
               whileHover={{ scale: 1.05, rotate: 2 }}
               whileTap={{ scale: 0.95 }}
-              className='bg-gradient-to-r from-sunny-yellow to-orange-400 text-white font-bold py-2 px-5 rounded-full shadow-lg flex items-center gap-2'
+              className='bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold py-2 px-5 rounded-full shadow-lg flex items-center gap-2' // Changed gradient colors
             >
               <FaPenFancy size={14} /> Enroll Now
             </motion.button>
           </a>
         </div>
         <div className='md:hidden'>
-          <button onClick={() => setIsOpen(!isOpen)}>
+          <button onClick={() => setIsOpen(!isOpen)} className='text-gray-700'>
             {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
         </div>
@@ -79,7 +87,7 @@ const Navbar = () => {
                 <a
                   key={link}
                   href={`#${link.toLowerCase().replace(' ', '')}`}
-                  className='block text-gray-600 hover:text-brand-purple px-3 py-2 rounded-md text-base font-medium'
+                  className='block text-gray-600 hover:text-indigo-700 px-3 py-2 rounded-md text-base font-medium' // Changed hover color
                   onClick={() => setIsOpen(false)}
                 >
                   {' '}
@@ -91,7 +99,7 @@ const Navbar = () => {
                 className='w-full text-center mt-2'
                 onClick={() => setIsOpen(false)}
               >
-                <motion.button className='bg-gradient-to-r from-sunny-yellow to-orange-400 text-white font-bold py-2 px-6 rounded-full shadow-lg w-auto'>
+                <motion.button className='bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold py-2 px-6 rounded-full shadow-lg w-auto'>
                   {' '}
                   Enroll Now{' '}
                 </motion.button>
