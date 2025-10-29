@@ -150,7 +150,7 @@ const Footer = () => {
         {/* --- Bottom Copyright Bar --- */}
         <div className='border-t border-indigo-700 mt-10 pt-6 text-center'>
           <p className='text-gray-400 text-sm'>
-            © {new Date().getFullYear()} Six Sense Preschool. All Rights
+            © {new Date().getFullYear()} Six Senses Preschool. All Rights
             Reserved.
           </p>
         </div>

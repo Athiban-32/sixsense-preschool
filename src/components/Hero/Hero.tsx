@@ -26,7 +26,7 @@ const HeroSection = () => {
             sm:text-[4vh] sm:font-medium
           '
         >
-          Grow your children with Six Sense
+          Grow your children with Six Senses
         </h1>
 
         <p
