@@ -53,37 +53,6 @@ const programList = [
     iconBg: 'bg-red-100',
   },
 ];
-
-/**
- * Data for the "Activities" section
- */
-const activities = [
-  {
-    icon: <FaPalette size={30} className='text-white' />,
-    title: 'Creative Arts',
-    desc: 'Painting, crafting, and storytelling to unleash imagination.',
-    color: 'from-pink-400 to-red-500',
-  },
-  {
-    icon: <FaMusic size={30} className='text-white' />,
-    title: 'Music & Movement',
-    desc: 'Singing, dancing, and playing instruments for joyful expression.',
-    color: 'from-yellow-400 to-orange-400',
-  },
-  {
-    icon: <FaSeedling size={30} className='text-white' />,
-    title: 'Nature Exploration',
-    desc: 'Gardening and outdoor play to connect with the natural world.',
-    color: 'from-green-400 to-emerald-500',
-  },
-  {
-    icon: <FiBookOpen size={30} className='text-white' />,
-    title: 'Early Literacy',
-    desc: 'Fun with letters, sounds, and stories to build a love for reading.',
-    color: 'from-sky-400 to-blue-500',
-  },
-];
-
 /**
  * NEW: Component for the Blue Bird School highlight
  */
@@ -198,39 +167,6 @@ const OurPrograms = () => {
 
       {/* --- PART 2: BLUE BIRD SCHOOL (Primary) --- */}
       <BlueBirdSchoolSection />
-
-      {/* --- PART 3: ACTIVITIES ("A Day Full of Wonder") --- */}
-      <div className='container mx-auto px-6 text-center mt-20 md:mt-24 z-10 relative'>
-        {/* <AnimatedSection> */}
-        <h2 className='text-3xl md:text-4xl font-nunito font-bold text-indigo-700 mb-4'>
-          A Day Full of Wonder
-        </h2>
-        <p className='text-lg text-gray-600 mb-12 max-w-2xl mx-auto'>
-          Our curriculum is a vibrant tapestry of activities designed to spark
-          curiosity and joy in every child.
-        </p>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
-          {activities.map((prog, i) => (
-            <motion.div
-              key={i}
-              className='bg-white p-6 rounded-2xl shadow-lg text-center'
-              whileHover={{ scale: 1.05, y: -10 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
-              <div
-                className={`w-20 h-20 rounded-full mx-auto flex items-center justify-center bg-gradient-to-br ${prog.color} mb-4 shadow-lg`}
-              >
-                {prog.icon}
-              </div>
-              <h3 className='text-xl font-nunito font-bold mb-2 text-gray-800'>
-                {prog.title}
-              </h3>
-              <p className='text-gray-600'>{prog.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-        {/* </AnimatedSection> */}
-      </div>
 
       {/* <WavyDivider color="#FFFFFF" /> */}
     </section>

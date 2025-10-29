@@ -87,32 +87,11 @@ const ContactForm = () => {
                   <option value='' disabled>
                     Select Child's Age
                   </option>
-                  <option value='daycare'>Under 1.8 yrs (Daycare)</option>
-                  <option value='playgroup'>1.8 - 2.5 yrs (Playgroup)</option>
-                  <option value='nursery'>2.5 - 3.5 yrs (Nursery)</option>
-                  <option value='kg'>3.5 - 5.5 yrs (KG)</option>
-                  <option value='primary'>Above 5.5 yrs (Primary)</option>
-                </select>
-              </div>
-
-              {/* NEW: School/Branch Dropdown */}
-              <div className='relative'>
-                <FiHome className='absolute top-1/2 left-4 -translate-y-1/2 text-gray-400' />
-                <select
-                  className='w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none text-gray-500'
-                  defaultValue=''
-                >
-                  <option value='' disabled>
-                    Select Branch/School
-                  </option>
-                  <option value='main-east'>
-                    Six Senses - Dombivli (East)
-                  </option>
-                  <option value='jk-east'>
-                    JK Six Senses - Dombivli (East)
-                  </option>
-                  <option value='west'>Six Senses - Dombivli (West)</option>
-                  <option value='bluebird'>Blue Bird School (Primary)</option>
+                  <option value='daycare'>Under 1.8 yrs </option>
+                  <option value='playgroup'>1.8 - 2.5 yrs</option>
+                  <option value='nursery'>2.5 - 3.5 yrs </option>
+                  <option value='kg'>3.5 - 5.5 yrs</option>
+                  <option value='primary'>Above 5.5 yrs</option>
                 </select>
               </div>
 

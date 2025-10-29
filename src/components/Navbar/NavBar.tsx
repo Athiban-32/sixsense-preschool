@@ -25,7 +25,7 @@ const HeaderCloud = ({
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navLinks = ['About', 'Programs', 'Gallery', 'Awards', 'Contact'];
+  const navLinks = ['About', 'Programs', 'Gallery', 'Branches', 'Contact'];
   return (
     <nav className='bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50 overflow-hidden'>
       {/* NEW: Animated header clouds */}
