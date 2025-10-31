@@ -35,16 +35,16 @@ const Footer = () => {
                 <FaInstagram size={24} />
               </a>
               <a
-                href='#' // Update with your Facebook link
+                href='https://www.instagram.com/jksixsenses'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='hover:text-blue-400 transition-colors'
                 aria-label='Facebook'
               >
-                <FaFacebook size={24} />
+                <FaInstagram size={24} />
               </a>
               <a
-                href='#' // Update with your Google Business link
+                href='https://www.google.com/search?q=six+senses+preschool+east+dombivli'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='hover:text-yellow-400 transition-colors'

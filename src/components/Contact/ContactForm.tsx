@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { motion } from 'framer-motion';
-// Import all necessary icons
+// Import icons
 import {
   FiUser,
   FiPhone,
@@ -9,17 +9,108 @@ import {
   FiMessageSquare,
 } from 'react-icons/fi';
 import { FaWhatsapp, FaChild } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+// Removed emailjs, no longer needed
 
 // Assuming AnimatedSection and WavyDivider are components you have
 // import AnimatedSection from './AnimatedSection';
 // import WavyDivider from './WavyDivider';
 
-const ContactForm = () => {
+// --- ADDED: Interface for form data ---
+interface FormData {
+  name: string;
+  phone: string;
+  age: string;
+  message: string;
+}
+
+// --- ADDED: Type for submit status ---
+type SubmitStatus = 'success' | 'error' | null;
+
+const ContactForm: React.FC = () => {
+  const navigate = useNavigate(); // <-- 2. Initialize the hook
+
+  // --- ADDED: State for form inputs ---
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    phone: '',
+    age: '',
+    message: '',
+  });
+
+  // --- ADDED: State for submission status ---
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>(null);
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // --- MODIFIED: HandleSubmit function for Google Sheets ---
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    // --- Get the Google Script URL from .env ---
+    const scriptURL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+
+    if (!scriptURL) {
+      console.error('Google Script URL is not set in .env file.');
+      console.error('VITE_GOOGLE_SCRIPT_URL:', scriptURL);
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // We need to create a FormData object to send to the Apps Script
+    const googleFormData = {
+      name: formData.name,
+      phone: formData.phone,
+      age: formData.age,
+      message: formData.message,
+      timestamp: new Date().toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+      }),
+    };
+
+    // --- NEW: Use fetch to POST to the Google Script ---
+    fetch(scriptURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(googleFormData),
+    })
+      .then((response) => {
+        // The script will return a success JSON
+        if (response.status === 200) {
+          console.log('Data sent successfully to Google Sheet!');
+          setSubmitStatus('success');
+          setIsSubmitting(false);
+
+          setTimeout(() => {
+            navigate('/thank-you');
+          }, 1000);
+        } else {
+          // Handle non-200 responses (e.g., script error)
+          throw new Error('Script execution error');
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to send data:', err);
+        setSubmitStatus('error');
+        setIsSubmitting(false);
+      });
+  };
+
   return (
     <section id='contact' className='py-20 bg-gray-50 relative'>
       {/* <WavyDivider top color="#FFFFFF" /> */}
 
-      {/* Set top margin to align with WavyDivider */}
       <div className='container mx-auto px-6 mt-12'>
         <div className='flex flex-wrap lg:flex-nowrap bg-white rounded-2xl shadow-2xl overflow-hidden'>
           {/* --- Form Section (Left Side) --- */}
@@ -33,7 +124,6 @@ const ContactForm = () => {
               directly!
             </p>
 
-            {/* NEW: Direct Call-to-Action */}
             <div className='mb-6 p-4 bg-indigo-50 rounded-lg border border-indigo-200'>
               <h4 className='font-nunito font-bold text-indigo-700 text-lg mb-2'>
                 Prefer to call?
@@ -43,7 +133,11 @@ const ContactForm = () => {
                 <span className='font-semibold'>
                   <a href='tel:+917506030742' className='hover:underline'>
                     75060 30742
-                  </a>{' '}
+                  </a>
+                  {/* Re-adding second number from your footer info */}/
+                  <a href='tel:+919820285892' className='hover:underline'>
+                    98202 85892
+                  </a>
                 </span>
               </div>
             </div>
@@ -52,14 +146,18 @@ const ContactForm = () => {
               Or, send an enquiry:
             </h4>
 
-            {/* UPDATED: Enriched Form */}
-            <form className='space-y-4'>
+            {/* --- MODIFIED: Added onSubmit --- */}
+            <form className='space-y-4' onSubmit={handleSubmit}>
               <div className='relative'>
                 <FiUser className='absolute top-1/2 left-4 -translate-y-1/2 text-gray-400' />
                 <input
                   type='text'
+                  name='name' // --- ADDED ---
                   placeholder='Parent’s Full Name'
                   className='w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
+                  value={formData.name} // --- ADDED ---
+                  onChange={handleInputChange} // --- ADDED ---
+                  required // --- ADDED ---
                 />
               </div>
 
@@ -67,47 +165,70 @@ const ContactForm = () => {
                 <FiPhone className='absolute top-1/2 left-4 -translate-y-1/2 text-gray-400' />
                 <input
                   type='tel'
+                  name='phone' // --- ADDED ---
                   placeholder='Phone Number'
                   className='w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
+                  value={formData.phone} // --- ADDED ---
+                  onChange={handleInputChange} // --- ADDED ---
+                  required // --- ADDED ---
                 />
               </div>
 
-              {/* NEW: Child's Age Dropdown */}
               <div className='relative'>
                 <FaChild className='absolute top-1/2 left-4 -translate-y-1/2 text-gray-400' />
                 <select
+                  name='age' // --- ADDED ---
                   className='w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none text-gray-500'
-                  defaultValue=''
+                  value={formData.age} // --- ADDED ---
+                  onChange={handleInputChange} // --- ADDED ---
+                  required // --- ADDED ---
                 >
                   <option value='' disabled>
                     Select Child's Age
                   </option>
-                  <option value='daycare'>Under 1.8 yrs </option>
-                  <option value='playgroup'>1.8 - 2.5 yrs</option>
-                  <option value='nursery'>2.5 - 3.5 yrs </option>
-                  <option value='kg'>3.5 - 5.5 yrs</option>
-                  <option value='primary'>Above 5.5 yrs</option>
+                  <option value='Under 1.8 yrs'>Under 1.8 yrs</option>
+                  <option value='1.8 - 2.5 yrs'>1.8 - 2.5 yrs</option>
+                  <option value='2.5 - 3.5 yrs'>2.5 - 3.5 yrs</option>
+                  <option value='3.5 - 5.5 yrs'>3.5 - 5.5 yrs</option>
+                  <option value='Above 5.5 yrs'>Above 5.5 yrs</option>
                 </select>
               </div>
 
               <div className='relative'>
                 <FiMessageSquare className='absolute top-4 left-4 text-gray-400' />
                 <textarea
-                  placeholder='Your Message'
+                  name='message' // --- ADDED ---
+                  placeholder='Your Message (Optional)'
                   rows={4}
                   className='w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
+                  value={formData.message} // --- ADDED ---
+                  onChange={handleInputChange} // --- ADDED ---
                 ></textarea>
               </div>
 
               <motion.button
                 type='submit'
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                // Using standard Tailwind colors
-                className='w-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold py-3 px-4 rounded-full shadow-lg transition-colors'
+                whileHover={{ scale: !isSubmitting ? 1.05 : 1 }}
+                whileTap={{ scale: !isSubmitting ? 0.95 : 1 }}
+                disabled={isSubmitting} // --- ADDED: Disable on submit ---
+                className='w-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold py-3 px-4 rounded-full shadow-lg transition-colors
+                           disabled:opacity-70 disabled:cursor-not-allowed' // --- ADDED: Disabled styles ---
               >
-                Submit Enquiry
+                {/* --- ADDED: Show sending text --- */}
+                {isSubmitting ? 'Sending...' : 'Submit Enquiry'}
               </motion.button>
+
+              {/* --- ADDED: Submission status message --- */}
+              {submitStatus === 'success' && (
+                <p className='text-center text-green-600 font-semibold'>
+                  Enquiry sent! Redirecting...
+                </p>
+              )}
+              {submitStatus === 'error' && (
+                <p className='text-center text-red-600 font-semibold'>
+                  Something went wrong. Please try again or call us.
+                </p>
+              )}
             </form>
             {/* </AnimatedSection> */}
           </div>
@@ -119,11 +240,9 @@ const ContactForm = () => {
               Visit Us
             </h3>
 
-            {/* Map */}
             <div className='rounded-xl overflow-hidden shadow-lg h-64 mb-6'>
               <iframe
-                // IMPORTANT: Replace this src with your actual Google Maps embed link
-                src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.411624422204!2d73.09265691539268!3d19.17724215354511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7bde93f38f5f3%3A0xf65b279b63467611!2sSIX%20SENSES%20PRESCHOOL%20%26%20DAYCARE!5e0!3m2!1sen!2sin!4v1678888888888!5m2!1sen!2sin'
+                src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.411624422204!2d73.09265691539268!3d19.17724215354511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7bde93f38f5f3%3A0xf65b279b63467611!2sSIX%20SENSES%2SENSES%20PRESCHOOL%20%26%20DAYCARE!5e0!3m2!1sen!2sin!4v1678888888888!5m2!1sen!2sin'
                 width='100%'
                 height='100%'
                 style={{ border: 0 }}
@@ -133,7 +252,6 @@ const ContactForm = () => {
               ></iframe>
             </div>
 
-            {/* Address & Contact Details */}
             <div className='space-y-4'>
               <p className='flex items-start text-lg text-gray-800'>
                 <FiMapPin className='mr-3 mt-1 text-indigo-700 flex-shrink-0' />
@@ -143,17 +261,19 @@ const ContactForm = () => {
                 </span>
               </p>
 
-              {/* REINFORCED: Contact numbers */}
               <p className='flex items-center text-lg text-gray-800 font-semibold'>
                 <FiPhone className='mr-3 text-indigo-700' />
                 <span>
                   <a href='tel:+917506030742' className='hover:underline'>
                     75060 30742
-                  </a>{' '}
+                  </a>
+                  {/* Re-adding second number from your footer info */}/
+                  <a href='tel:+919820285892' className='hover:underline'>
+                    98202 85892
+                  </a>
                 </span>
               </p>
 
-              {/* WhatsApp Button */}
               <a
                 href='https://wa.me/917506030742'
                 target='_blank'
