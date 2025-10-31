@@ -10,13 +10,7 @@ import {
 } from 'react-icons/fi';
 import { FaWhatsapp, FaChild } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-// Removed emailjs, no longer needed
 
-// Assuming AnimatedSection and WavyDivider are components you have
-// import AnimatedSection from './AnimatedSection';
-// import WavyDivider from './WavyDivider';
-
-// --- ADDED: Interface for form data ---
 interface FormData {
   name: string;
   phone: string;
