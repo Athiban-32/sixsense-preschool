@@ -42,9 +42,8 @@ const Navbar = () => {
           <img
             src='/logo.png' // Path from public folder
             alt='Six Senses Preschool Logo'
-            className='h-10 w-auto mr-2' // Adjust height as needed
+            className='h-10 w-full mr-2' // Adjust height as needed
           />
-          Six Senses
         </a>
         {/* --- End Logo Modification --- */}
 
