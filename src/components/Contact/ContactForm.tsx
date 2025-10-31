@@ -77,28 +77,24 @@ const ContactForm: React.FC = () => {
       }),
     };
 
-    // --- NEW: Use fetch to POST to the Google Script ---
     fetch(scriptURL, {
+      redirect: 'follow',
       method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8',
-      },
       body: JSON.stringify(googleFormData),
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
       .then((response) => {
         // The script will return a success JSON
-        if (response.status === 200) {
-          console.log('Data sent successfully to Google Sheet!');
-          setSubmitStatus('success');
-          setIsSubmitting(false);
+        console.log('Data sent successfully to Google Sheet!');
+        setSubmitStatus('success');
+        setIsSubmitting(false);
 
-          setTimeout(() => {
-            navigate('/thank-you');
-          }, 1000);
-        } else {
-          // Handle non-200 responses (e.g., script error)
-          throw new Error('Script execution error');
-        }
+        setTimeout(() => {
+          navigate('/thank-you');
+        }, 1000);
       })
       .catch((err) => {
         console.error('Failed to send data:', err);
