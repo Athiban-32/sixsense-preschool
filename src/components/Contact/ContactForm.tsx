@@ -124,10 +124,6 @@ const ContactForm: React.FC = () => {
                   <a href='tel:+917506030742' className='hover:underline'>
                     75060 30742
                   </a>
-                  {/* Re-adding second number from your footer info */}/
-                  <a href='tel:+919820285892' className='hover:underline'>
-                    98202 85892
-                  </a>
                 </span>
               </div>
             </div>
@@ -256,10 +252,6 @@ const ContactForm: React.FC = () => {
                 <span>
                   <a href='tel:+917506030742' className='hover:underline'>
                     75060 30742
-                  </a>
-                  {/* Re-adding second number from your footer info */}/
-                  <a href='tel:+919820285892' className='hover:underline'>
-                    98202 85892
                   </a>
                 </span>
               </p>
