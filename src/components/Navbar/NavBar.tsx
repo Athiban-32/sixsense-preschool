@@ -28,11 +28,11 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   // 2. Updated to use paths
   const navLinks = [
-    { name: 'About', path: '/#about' },
-    { name: 'Programs', path: '/#programs' },
-    { name: 'Gallery', path: '/#gallery' },
-    { name: 'Branches', path: '/#branches' },
-    { name: 'Contact', path: '/#contact' },
+    { name: 'About', path: 'about' },
+    { name: 'Programs', path: 'programs' },
+    { name: 'Gallery', path: 'gallery' },
+    { name: 'Branches', path: 'branches' },
+    { name: 'Contact', path: 'contact' },
   ];
 
   return (
@@ -68,13 +68,15 @@ const Navbar = () => {
 
           {navLinks.map((link) => (
             // 4. Changed <a> to <Link> for smooth SPA navigation
-            <Link
+            <a
               key={link.name}
-              to={link.path}
-              className='text-gray-600 hover:text-indigo-700 transition-colors duration-300 font-semibold'
+              href={`#${link.path}`}
+              className='block text-gray-600 hover:text-indigo-700 px-3 py-2 rounded-md text-base font-medium' // Changed hover color
+              onClick={() => setIsOpen(false)}
             >
-              {link.name}
-            </Link>
+              {' '}
+              {link.name}{' '}
+            </a>
           ))}
 
           <Link to='/#contact'>

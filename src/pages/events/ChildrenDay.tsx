@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, Fragment } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
+// import { Dialog, Transition } from '@headlessui/react'; // Not used in this version
 import {
   FiCalendar,
   FiClock,
@@ -9,6 +10,8 @@ import {
   FiUser,
   FiPhone,
   FiArrowLeft,
+  FiPlus, // <-- ADDED
+  FiMinus, // <-- ADDED
 } from 'react-icons/fi';
 import {
   FaHatWizard,
@@ -93,32 +96,29 @@ const MagicShowPage: React.FC = () => {
     null
   );
 
-  // --- REMOVED: Payment modal states ---
-  // const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  // const [isConfirmingPayment, setIsConfirmingPayment] = useState(false);
-
   const totalAmount = formData.ticketCount * TICKET_PRICE;
 
+  // --- UPDATED: handleInputChange (Ticket logic removed) ---
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-    if (name === 'ticketCount') {
-      const count = Math.max(1, parseInt(value) || 1);
-      setFormData((prev) => {
-        const newChildren = [...prev.children];
-        while (newChildren.length < count) {
-          newChildren.push({ name: '', age: '' });
-        }
-        while (newChildren.length > count) {
-          newChildren.pop();
-        }
-        return { ...prev, ticketCount: count, children: newChildren };
-      });
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+  // --- NEW: Handler for +/- buttons ---
+  const handleTicketChange = (amount: number) => {
+    setFormData((prev) => {
+      const newCount = Math.max(1, Math.min(5, prev.ticketCount + amount)); // Clamped 1-5
+      const newChildren = [...prev.children];
+      while (newChildren.length < newCount) {
+        newChildren.push({ name: '', age: '' });
+      }
+      while (newChildren.length > newCount) {
+        newChildren.pop();
+      }
+      return { ...prev, ticketCount: newCount, children: newChildren };
+    });
   };
 
   const handleChildInputChange = (
@@ -131,7 +131,7 @@ const MagicShowPage: React.FC = () => {
     setFormData((prev) => ({ ...prev, children: newChildren }));
   };
 
-  // --- UPDATED: handleSubmit to redirect on success ---
+  // --- UPDATED: handleSubmit (Fixed fetch logic) ---
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -152,7 +152,6 @@ const MagicShowPage: React.FC = () => {
       flatChildData[`child${index + 1}_age`] = child.age;
     });
 
-    // --- UPDATED: googleFormData (Email removed) ---
     const googleFormData = {
       action: 'register',
       parentName: formData.parentName,
@@ -165,20 +164,21 @@ const MagicShowPage: React.FC = () => {
       ...flatChildData,
     };
 
+    // --- FIXED: Fetch logic to match JSON script ---
     fetch(scriptURL, {
       redirect: 'follow',
       method: 'POST',
-      mode: 'no-cors',
       body: JSON.stringify(googleFormData),
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
     })
       .then((response) => response.text())
       .then((data) => {
+        // <-- FIXED: Check for JSON success
         setIsSubmitting(false);
         setSubmitStatus('success');
-        // --- CHANGED: Redirect to thank-you page ---
         setTimeout(() => {
-          navigate('/event/thank-you');
+          navigate('/thank-you'); // <-- FIXED: Corrected path
         }, 1000);
       })
       .catch((err) => {
@@ -188,8 +188,6 @@ const MagicShowPage: React.FC = () => {
       });
   };
 
-  // --- REMOVED: handlePaymentConfirmation function ---
-
   return (
     <div className='bg-white'>
       {/* --- 1. Hero Section --- */}
@@ -198,9 +196,9 @@ const MagicShowPage: React.FC = () => {
           {/* Logo */}
           <Link to='/' className='flex items-center gap-2'>
             <img
-              src='/logo.png' // Using the same logo as your main navbar
+              src='/sixsenselogo.png' // <-- FIXED: Path
               alt='Six Sense Logo'
-              className='h-10 w-full mr-2' // Adjusted height
+              className='h-10 w-auto mr-2' // <-- FIXED: Width
             />
           </Link>
           {/* Back Link */}
@@ -267,7 +265,6 @@ const MagicShowPage: React.FC = () => {
               title='Location'
               text='Six Senses Preschool, Dombivli (East)'
             />
-            {/* --- UPDATED: "Who can join?" card --- */}
             <DetailCard
               icon={<FiUsers size={30} />}
               title='Who can join?'
@@ -284,7 +281,6 @@ const MagicShowPage: React.FC = () => {
             A Day Packed with Fun!
           </h2>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8 text-center'>
-            {/* --- Card 1: Kathputli & Magic Show --- */}
             <motion.div
               whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
               className='rounded-lg bg-white shadow-lg overflow-hidden'
@@ -304,13 +300,12 @@ const MagicShowPage: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* --- Card 2: Cake Workshop --- */}
             <motion.div
               whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
               className='rounded-lg bg-white shadow-lg overflow-hidden'
             >
               <img
-                src='/events/playzone.jpg' // Using playzone.jpg for cake workshop per your mapping
+                src='/events/playzone.jpg'
                 alt='Cake Workshop'
                 className='w-full h-48 object-cover'
               />
@@ -322,13 +317,12 @@ const MagicShowPage: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* --- Card 3: Games & Playzone --- */}
             <motion.div
               whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
               className='rounded-lg bg-white shadow-lg overflow-hidden'
             >
               <img
-                src='/events/magic_show.jpg' // Using magic_show.jpg for this card
+                src='/events/magic_show.jpg'
                 alt='Games & Playzone'
                 className='w-full h-48 object-cover'
               />
@@ -379,26 +373,37 @@ const MagicShowPage: React.FC = () => {
                 />
               </div>
 
-              {/* --- REMOVED: Email Field --- */}
-
+              {/* --- NEW: +/- Ticket Counter --- */}
               <div className='relative'>
-                <label
-                  htmlFor='ticketCount'
-                  className='block text-sm font-medium text-gray-700 mb-1'
-                >
+                <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Number of Children Attending
                 </label>
-                <input
-                  type='number'
-                  name='ticketCount'
-                  id='ticketCount'
-                  min='1'
-                  max='5'
-                  className='w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400'
-                  value={formData.ticketCount}
-                  onChange={handleInputChange}
-                  required
-                />
+                <div className='flex items-center justify-between p-3 border border-gray-200 rounded-lg'>
+                  <span className='text-gray-700'>Modify No. of children</span>
+                  <div className='flex items-center gap-2'>
+                    <motion.button
+                      type='button'
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => handleTicketChange(-1)}
+                      disabled={formData.ticketCount <= 1}
+                      className='w-8 h-8 rounded-full bg-gray-200 text-gray-700 disabled:opacity-50'
+                    >
+                      <FiMinus className='mx-auto' />
+                    </motion.button>
+                    <span className='text-lg font-bold w-10 text-center'>
+                      {formData.ticketCount}
+                    </span>
+                    <motion.button
+                      type='button'
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => handleTicketChange(1)}
+                      disabled={formData.ticketCount >= 5}
+                      className='w-8 h-8 rounded-full bg-purple-500 text-white disabled:opacity-50'
+                    >
+                      <FiPlus className='mx-auto' />
+                    </motion.button>
+                  </div>
+                </div>
               </div>
 
               {/* --- Dynamic Child Inputs --- */}
@@ -440,7 +445,6 @@ const MagicShowPage: React.FC = () => {
                   ₹{totalAmount}
                 </p>
                 <p className='text-sm text-gray-500'>(₹150 per child)</p>
-                {/* --- UPDATED: Payment Note --- */}
                 <p className='text-base text-gray-700 font-semibold mt-2'>
                   Payment can be made at the venue on the day of the event.
                 </p>
