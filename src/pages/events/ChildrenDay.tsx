@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent, Fragment } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { Dialog, Transition } from '@headlessui/react';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   FiCalendar,
   FiClock,
@@ -9,6 +8,7 @@ import {
   FiUsers,
   FiUser,
   FiPhone,
+  FiArrowLeft,
 } from 'react-icons/fi';
 import {
   FaHatWizard,
@@ -63,7 +63,7 @@ const DetailCard: React.FC<DetailCardProps> = ({ icon, title, text }) => (
   </div>
 );
 
-// --- UPDATED: Form Data Interface ---
+// --- UPDATED: Form Data Interface (Email removed) ---
 interface Child {
   name: string;
   age: string;
@@ -80,6 +80,7 @@ const MagicShowPage: React.FC = () => {
   const navigate = useNavigate();
   const TICKET_PRICE = 150;
 
+  // --- UPDATED: State (Email removed) ---
   const [formData, setFormData] = useState<MagicFormData>({
     parentName: '',
     phone: '',
@@ -92,8 +93,9 @@ const MagicShowPage: React.FC = () => {
     null
   );
 
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [isConfirmingPayment, setIsConfirmingPayment] = useState(false);
+  // --- REMOVED: Payment modal states ---
+  // const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  // const [isConfirmingPayment, setIsConfirmingPayment] = useState(false);
 
   const totalAmount = formData.ticketCount * TICKET_PRICE;
 
@@ -129,6 +131,7 @@ const MagicShowPage: React.FC = () => {
     setFormData((prev) => ({ ...prev, children: newChildren }));
   };
 
+  // --- UPDATED: handleSubmit to redirect on success ---
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -149,6 +152,7 @@ const MagicShowPage: React.FC = () => {
       flatChildData[`child${index + 1}_age`] = child.age;
     });
 
+    // --- UPDATED: googleFormData (Email removed) ---
     const googleFormData = {
       action: 'register',
       parentName: formData.parentName,
@@ -162,19 +166,20 @@ const MagicShowPage: React.FC = () => {
     };
 
     fetch(scriptURL, {
+      redirect: 'follow',
       method: 'POST',
+      mode: 'no-cors',
       body: JSON.stringify(googleFormData),
       headers: { 'Content-Type': 'application/json' },
     })
-      .then((response) => response.json())
+      .then((response) => response.text())
       .then((data) => {
-        if (data.result === 'success') {
-          setIsSubmitting(false);
-          setSubmitStatus('success');
-          setIsPaymentModalOpen(true);
-        } else {
-          throw new Error(data.error || 'Script execution error');
-        }
+        setIsSubmitting(false);
+        setSubmitStatus('success');
+        // --- CHANGED: Redirect to thank-you page ---
+        setTimeout(() => {
+          navigate('/event/thank-you');
+        }, 1000);
       })
       .catch((err) => {
         console.error('Failed to send data:', err);
@@ -183,49 +188,37 @@ const MagicShowPage: React.FC = () => {
       });
   };
 
-  const handlePaymentConfirmation = () => {
-    setIsConfirmingPayment(true);
-    const scriptURL = import.meta.env.VITE_GOOGLE_SCRIPT_URL_MAGIC_SHOW;
-
-    const updateData = {
-      action: 'updatePayment',
-      phone: formData.phone,
-    };
-
-    fetch(scriptURL, {
-      method: 'POST',
-      body: JSON.stringify(updateData),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result === 'success') {
-          console.log('Payment status updated!');
-        } else {
-          console.error('Failed to update payment status:', data.error);
-        }
-      })
-      .catch((err) => {
-        console.error('Error in payment confirmation:', err);
-      })
-      .finally(() => {
-        setIsConfirmingPayment(false);
-        setIsPaymentModalOpen(false);
-        navigate('/event/thank-you');
-      });
-  };
+  // --- REMOVED: handlePaymentConfirmation function ---
 
   return (
     <div className='bg-white'>
-      {/* --- 1. Hero Section (UPDATED) --- */}
+      {/* --- 1. Hero Section --- */}
+      <header className='bg-white shadow-sm sticky top-0 z-40'>
+        <div className='container mx-auto px-6 py-3 flex justify-between items-center'>
+          {/* Logo */}
+          <Link to='/' className='flex items-center gap-2'>
+            <img
+              src='/logo.png' // Using the same logo as your main navbar
+              alt='Six Sense Logo'
+              className='h-10 w-full mr-2' // Adjusted height
+            />
+          </Link>
+          {/* Back Link */}
+          <Link
+            to='/'
+            className='flex items-center text-sm font-semibold text-indigo-600 hover:text-indigo-800'
+          >
+            <FiArrowLeft className='mr-1' />
+            Back to Home
+          </Link>
+        </div>
+      </header>
+
       <div
-        className='relative text-white overflow-hidden bg-cover bg-top min-h-[80vh] group' // Use bg-top, larger height, and 'group' for hover
+        className='relative text-white overflow-hidden bg-cover bg-top min-h-[80vh] group'
         style={{ backgroundImage: "url('/events/magic.jpg')" }}
       >
-        {/* Sparkle Animation */}
         <SparkleAnimation />
-
-        {/* UPDATED: Content: Always visible on mobile, fades in on desktop hover */}
         <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 flex items-end'>
           <div className='container mx-auto px-6 py-12 text-center relative z-10'>
             <motion.div
@@ -244,10 +237,7 @@ const MagicShowPage: React.FC = () => {
           </div>
         </div>
 
-        {/* UPDATED: Always Visible CTA Button, moved down */}
         <div className='absolute bottom-6 left-1/2 -translate-x-1/2 z-20'>
-          {' '}
-          {/* Changed to bottom-6 */}
           <motion.a
             href='#register'
             className='inline-block bg-amber-300 text-purple-900 font-bold py-3 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transition-all duration-300'
@@ -277,16 +267,17 @@ const MagicShowPage: React.FC = () => {
               title='Location'
               text='Six Senses Preschool, Dombivli (East)'
             />
+            {/* --- UPDATED: "Who can join?" card --- */}
             <DetailCard
               icon={<FiUsers size={30} />}
               title='Who can join?'
-              text='Open to all kids (Ages 2-10)'
+              text='Open to all kids (Ages 2-10). Parents are welcome free of charge!'
             />
           </div>
         </div>
       </section>
 
-      {/* --- 3. What to Expect Section (UPDATED) --- */}
+      {/* --- 3. What to Expect Section --- */}
       <section className='py-20 bg-white'>
         <div className='container mx-auto px-6'>
           <h2 className='text-3xl md:text-4xl font-nunito font-bold text-center text-purple-700 mb-12'>
@@ -388,6 +379,8 @@ const MagicShowPage: React.FC = () => {
                 />
               </div>
 
+              {/* --- REMOVED: Email Field --- */}
+
               <div className='relative'>
                 <label
                   htmlFor='ticketCount'
@@ -400,6 +393,7 @@ const MagicShowPage: React.FC = () => {
                   name='ticketCount'
                   id='ticketCount'
                   min='1'
+                  max='5'
                   className='w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400'
                   value={formData.ticketCount}
                   onChange={handleInputChange}
@@ -446,6 +440,10 @@ const MagicShowPage: React.FC = () => {
                   ₹{totalAmount}
                 </p>
                 <p className='text-sm text-gray-500'>(₹150 per child)</p>
+                {/* --- UPDATED: Payment Note --- */}
+                <p className='text-base text-gray-700 font-semibold mt-2'>
+                  Payment can be made at the venue on the day of the event.
+                </p>
               </div>
 
               <motion.button
@@ -456,12 +454,12 @@ const MagicShowPage: React.FC = () => {
                 whileHover={{ scale: !isSubmitting ? 1.05 : 1 }}
                 whileTap={{ scale: !isSubmitting ? 0.95 : 1 }}
               >
-                {isSubmitting ? 'Registering...' : 'Register'}
+                {isSubmitting ? 'Registering...' : 'Register Now'}
               </motion.button>
 
               {submitStatus === 'success' && (
                 <p className='text-center text-green-600 font-semibold'>
-                  Registration Successful! Please proceed to payment...
+                  Registration Successful! Redirecting...
                 </p>
               )}
               {submitStatus === 'error' && (
@@ -474,96 +472,7 @@ const MagicShowPage: React.FC = () => {
         </div>
       </section>
 
-      {/* --- Payment Modal --- */}
-      <Transition appear show={isPaymentModalOpen} as={Fragment}>
-        <Dialog
-          as='div'
-          className='relative z-50'
-          onClose={() => {
-            /* Don't close on backdrop click */
-          }}
-        >
-          {/* Backdrop */}
-          <Transition.Child
-            as={Fragment}
-            enter='ease-out duration-300'
-            enterFrom='opacity-0'
-            enterTo='opacity-100'
-            leave='ease-in duration-200'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
-          >
-            <div className='fixed inset-0 bg-black/75' />
-          </Transition.Child>
-
-          {/* Modal Content */}
-          <div className='fixed inset-0 overflow-y-auto'>
-            <div className='flex min-h-full items-center justify-center p-4 text-center'>
-              <Transition.Child
-                as={Fragment}
-                enter='ease-out duration-300'
-                enterFrom='opacity-0 scale-95'
-                enterTo='opacity-100 scale-100'
-                leave='ease-in duration-200'
-                leaveFrom='opacity-100 scale-100'
-                leaveTo='opacity-0 scale-95'
-              >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
-                  <Dialog.Title
-                    as='h3'
-                    className='text-lg font-bold leading-6 text-gray-900'
-                  >
-                    Complete Your Payment
-                  </Dialog.Title>
-                  <div className='mt-4 text-center'>
-                    <p className='text-gray-600 mb-4'>
-                      Your spot is reserved! Please scan the QR code to pay.
-                    </p>
-                    <div className='mb-4'>
-                      <p className='text-xl font-semibold text-gray-800'>
-                        Total Amount
-                      </p>
-                      <p className='text-5xl font-bold text-purple-700'>
-                        ₹{totalAmount}
-                      </p>
-                    </div>
-
-                    <div className='w-64 h-64 bg-gray-200 mx-auto rounded-lg flex items-center justify-center text-gray-500'>
-                      <img
-                        src='/images/your-upi-qr-code.png'
-                        alt='UPI QR Code for Payment'
-                        className='w-full h-full object-cover rounded-lg'
-                        onError={(e) =>
-                          (e.currentTarget.style.display = 'none')
-                        }
-                      />
-                      <span className='p-4' style={{ display: 'none' }}>
-                        Your UPI QR Code Here
-                      </span>
-                    </div>
-                    <p className='text-xs text-gray-500 mt-2'>
-                      Please show a screenshot of your payment at the gate.
-                    </p>
-                  </div>
-
-                  <div className='mt-6'>
-                    <motion.button
-                      type='button'
-                      disabled={isConfirmingPayment}
-                      className='w-full inline-flex justify-center rounded-md border border-transparent bg-purple-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-purple-700
-                                 disabled:opacity-50'
-                      onClick={handlePaymentConfirmation}
-                      whileHover={{ scale: !isConfirmingPayment ? 1.03 : 1 }}
-                    >
-                      {isConfirmingPayment ? 'Processing...' : 'I Have Paid'}
-                    </motion.button>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
+      {/* --- REMOVED: Payment Modal --- */}
     </div>
   );
 };
