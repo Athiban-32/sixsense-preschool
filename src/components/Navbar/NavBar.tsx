@@ -105,19 +105,20 @@ const Navbar = () => {
           >
             <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center'>
               {navLinks.map((link) => (
-                <Link
+                <a
                   key={link.name}
-                  to={link.path}
+                  href={`#${link.path}`}
                   className='block text-gray-600 hover:text-indigo-700 px-3 py-2 rounded-md text-base font-medium'
                   onClick={() => setIsOpen(false)}
                 >
-                  {link.name}
-                </Link>
+                  {' '}
+                  {link.name}{' '}
+                </a>
               ))}
 
               {/* 6. NEW: Added Event Link to mobile menu */}
               <Link
-                to='/magic-show'
+                to='/event/children-day'
                 className='w-full text-center mt-2'
                 onClick={() => setIsOpen(false)}
               >

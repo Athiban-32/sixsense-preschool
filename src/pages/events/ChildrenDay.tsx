@@ -196,7 +196,7 @@ const MagicShowPage: React.FC = () => {
           {/* Logo */}
           <Link to='/' className='flex items-center gap-2'>
             <img
-              src='/sixsenselogo.png' // <-- FIXED: Path
+              src='/logo.png' // <-- FIXED: Path
               alt='Six Sense Logo'
               className='h-10 w-auto mr-2' // <-- FIXED: Width
             />
