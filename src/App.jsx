@@ -10,6 +10,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/thank-you" element={<ThankYouPage />} />
       <Route path="/event/children-day" element={<ChildrenDay />} />
+      <Route path="/event/thank-you" element={<ThankYouPage />} />
     </Routes>
   );
 }

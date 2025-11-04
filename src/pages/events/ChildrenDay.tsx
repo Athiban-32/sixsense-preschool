@@ -211,7 +211,7 @@ const MagicShowPage: React.FC = () => {
       .finally(() => {
         setIsConfirmingPayment(false);
         setIsPaymentModalOpen(false);
-        navigate('/thank-you');
+        navigate('/event/thank-you');
       });
   };
 
@@ -253,7 +253,7 @@ const MagicShowPage: React.FC = () => {
             className='inline-block bg-amber-300 text-purple-900 font-bold py-3 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transition-all duration-300'
             whileHover={{ scale: 1.05 }}
           >
-            Register Now for ₹150
+            Register Now
           </motion.a>
         </div>
       </div>
