@@ -62,7 +62,7 @@ const Navbar = () => {
               whileTap={{ scale: 0.95 }}
               className='bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-2 px-5 rounded-full shadow-lg flex items-center gap-2 animate-pulse'
             >
-              ✨ Children Day
+              ✨ Christmas
             </motion.button>
           </Link>
 
