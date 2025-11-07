@@ -248,7 +248,7 @@ const HeroSection = () => {
         >
           Franchises are welcome.
           <a
-            href='#franchise'
+            href='#contact'
             className='font-bold underline hover:text-yellow-300'
           >
             Click here to inquire.
