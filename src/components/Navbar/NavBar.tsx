@@ -79,7 +79,7 @@ const Navbar = () => {
             </a>
           ))}
 
-          <Link to='/#contact'>
+          <a href='#contact'>
             <motion.button
               whileHover={{ scale: 1.05, rotate: 2 }}
               whileTap={{ scale: 0.95 }}
@@ -87,7 +87,7 @@ const Navbar = () => {
             >
               <FaPenFancy size={14} /> Enroll Now
             </motion.button>
-          </Link>
+          </a>
         </div>
         <div className='md:hidden'>
           <button onClick={() => setIsOpen(!isOpen)} className='text-gray-700'>
@@ -127,15 +127,15 @@ const Navbar = () => {
                 </motion.button>
               </Link>
 
-              <Link
-                to='/#contact'
+              <a
+                href='#contact'
                 className='w-full text-center mt-2'
                 onClick={() => setIsOpen(false)}
               >
                 <motion.button className='bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold py-2 px-6 rounded-full shadow-lg w-auto'>
                   Enroll Now
                 </motion.button>
-              </Link>
+              </a>
             </div>
           </motion.div>
         )}
