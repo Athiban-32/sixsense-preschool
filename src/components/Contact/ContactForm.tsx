@@ -225,10 +225,9 @@ const ContactForm: React.FC = () => {
             <h3 className='text-3xl font-nunito font-bold text-indigo-700 mb-6'>
               Visit Us
             </h3>
-
             <div className='rounded-xl overflow-hidden shadow-lg h-64 mb-6'>
               <iframe
-                src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.411624422204!2d73.09265691539268!3d19.17724215354511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7bde93f38f5f3%3A0xf65b279b63467611!2sSIX%20SENSES%2SENSES%20PRESCHOOL%20%26%20DAYCARE!5e0!3m2!1sen!2sin!4v1678888888888!5m2!1sen!2sin'
+                src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120566.23196492341!2d73.00753608375689!3d19.20853039023422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be79588ffffff89%3A0x63df39032e302075!2sSix%20Senses%20-%20Preschool%20%7C%20Play%20School%20%7C%20Daycare%20center%20%7C%20In%20Dombivli!5e0!3m2!1sen!2sin!4v1763557468653!5m2!1sen!2sin'
                 width='100%'
                 height='100%'
                 style={{ border: 0 }}
