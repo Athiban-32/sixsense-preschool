@@ -23,7 +23,8 @@ type SubmitStatus = 'success' | 'error' | null;
 
 const ContactForm: React.FC = () => {
   const navigate = useNavigate(); // <-- 2. Initialize the hook
-
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [phoneTouched, setPhoneTouched] = useState<boolean>(false);
   // --- ADDED: State for form inputs ---
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -35,6 +36,16 @@ const ContactForm: React.FC = () => {
   // --- ADDED: State for submission status ---
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>(null);
+
+  const handlePhoneBlur = () => {
+    setPhoneTouched(true);
+
+    if (formData.phone.length !== 10) {
+      setPhoneError('Phone number must be exactly 10 digits.');
+    } else {
+      setPhoneError(null);
+    }
+  };
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -63,7 +74,7 @@ const ContactForm: React.FC = () => {
     // We need to create a FormData object to send to the Apps Script
     const googleFormData = {
       name: formData.name,
-      phone: formData.phone,
+      phone: `+91${formData.phone}`,
       age: formData.age,
       message: formData.message,
       timestamp: new Date().toLocaleString('en-IN', {
@@ -110,7 +121,7 @@ const ContactForm: React.FC = () => {
               Enroll Your Little One!
             </h2>
             <p className='text-gray-600 mb-6'>
-              We’d love to welcome your child. Fill in the form or contact us
+              We'd love to welcome your child. Fill in the form or contact us
               directly!
             </p>
 
@@ -149,16 +160,26 @@ const ContactForm: React.FC = () => {
 
               <div className='relative'>
                 <FiPhone className='absolute top-1/2 left-4 -translate-y-1/2 text-gray-400' />
+
+                <span className='absolute left-12 top-1/2 -translate-y-1/2 text-gray-700 font-semibold'>
+                  +91
+                </span>
+
                 <input
                   type='tel'
-                  name='phone' // --- ADDED ---
-                  placeholder='Phone Number'
-                  className='w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
-                  value={formData.phone} // --- ADDED ---
-                  onChange={handleInputChange} // --- ADDED ---
-                  required // --- ADDED ---
+                  name='phone'
+                  placeholder='Enter 10-digit number'
+                  className='w-full pl-20 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  onBlur={handlePhoneBlur} // <-- Only validate on blur
+                  required
                 />
               </div>
+
+              {phoneTouched && phoneError && (
+                <p className='text-red-600 text-sm mt-1'>{phoneError}</p>
+              )}
 
               <div className='relative'>
                 <FaChild className='absolute top-1/2 left-4 -translate-y-1/2 text-gray-400' />
@@ -196,11 +217,10 @@ const ContactForm: React.FC = () => {
                 type='submit'
                 whileHover={{ scale: !isSubmitting ? 1.05 : 1 }}
                 whileTap={{ scale: !isSubmitting ? 0.95 : 1 }}
-                disabled={isSubmitting} // --- ADDED: Disable on submit ---
+                disabled={isSubmitting || phoneError !== null}
                 className='w-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold py-3 px-4 rounded-full shadow-lg transition-colors
-                           disabled:opacity-70 disabled:cursor-not-allowed' // --- ADDED: Disabled styles ---
+                           disabled:opacity-70 disabled:cursor-not-allowed'
               >
-                {/* --- ADDED: Show sending text --- */}
                 {isSubmitting ? 'Sending...' : 'Submit Enquiry'}
               </motion.button>
 
