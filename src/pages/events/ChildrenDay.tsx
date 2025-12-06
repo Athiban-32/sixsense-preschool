@@ -172,9 +172,7 @@ const MagicShowPage: React.FC = () => {
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
     })
-      .then((response) => response.text())
-      .then((data) => {
-        // <-- FIXED: Check for JSON success
+      .then((response) => {
         setIsSubmitting(false);
         setSubmitStatus('success');
         navigate('/thank-you');

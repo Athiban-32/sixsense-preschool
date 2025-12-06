@@ -92,14 +92,9 @@ const ContactForm: React.FC = () => {
       },
     })
       .then((response) => {
-        // The script will return a success JSON
-        console.log('Data sent successfully to Google Sheet!');
         setSubmitStatus('success');
         setIsSubmitting(false);
-
-        setTimeout(() => {
-          navigate('/thank-you');
-        }, 1000);
+        navigate('/thank-you');
       })
       .catch((err) => {
         console.error('Failed to send data:', err);
