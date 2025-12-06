@@ -177,9 +177,7 @@ const MagicShowPage: React.FC = () => {
         // <-- FIXED: Check for JSON success
         setIsSubmitting(false);
         setSubmitStatus('success');
-        setTimeout(() => {
-          navigate('/thank-you'); // <-- FIXED: Corrected path
-        }, 1000);
+        navigate('/thank-you');
       })
       .catch((err) => {
         console.error('Failed to send data:', err);
