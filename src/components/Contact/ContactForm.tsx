@@ -82,25 +82,25 @@ const ContactForm: React.FC = () => {
       }),
     };
 
-    fetch(scriptURL, {
-      redirect: 'follow',
-      method: 'POST',
-      body: JSON.stringify(googleFormData),
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        setSubmitStatus('success');
-        setIsSubmitting(false);
-        navigate('/thank-you');
-      })
-      .catch((err) => {
-        console.error('Failed to send data:', err);
-        setSubmitStatus('error');
-        setIsSubmitting(false);
+    try {
+      fetch(scriptURL, {
+        redirect: 'follow',
+        method: 'POST',
+        body: JSON.stringify(googleFormData),
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
+
+      setSubmitStatus('success');
+      setIsSubmitting(false);
+      navigate('/thank-you');
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+    }
   };
 
   return (
