@@ -19,13 +19,14 @@ const HeroAnnouncements = () => {
         </p>
       </motion.div>
 
-      {/* Announcement 2: New Branch */}
+      {/* Announcement 2: Admission Open */}
       <motion.div
         whileHover={{ scale: 1.03, rotate: -1 }} // Subtle hover effect
         className='relative bg-pink-300 p-4 rounded-lg shadow-xl transform rotate-1 hover:rotate-0 transition-transform duration-200' // Pink note, slightly rotated
       >
         <p className='font-extrabold text-purple-800 text-base md:text-lg'>
-          📍 New Branch Opening Soon in Dombivli (West)!
+          📢 Admission is open for Toddlers activities, Summer camps and
+          daycare!
         </p>
       </motion.div>
     </motion.div>

@@ -91,18 +91,14 @@ const OurBranches = () => {
             </a>
           </motion.div>
 
-          {/* --- Card 3: 2nd Branch (West) - NEW --- */}
+          {/* --- Card 3: 2nd Branch (West) --- */}
           <motion.div
             className='bg-gray-50 rounded-2xl shadow-lg overflow-hidden border-t-8 border-yellow-500 flex flex-col'
             whileHover={{ y: -10, scale: 1.03 }}
           >
             <div className='p-6 flex-grow'>
-              {/* "Opening Soon" Badge */}
-              <span className='inline-block bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase'>
-                Opening Soon
-              </span>
               <h3 className='text-xl font-nunito font-bold text-yellow-800 mb-3'>
-                New Branch – Dombivli (West)
+                2nd Branch – Dombivli (West)
               </h3>
               <div className='space-y-4'>
                 <p className='flex items-start text-gray-700'>
@@ -116,11 +112,46 @@ const OurBranches = () => {
               </div>
             </div>
             {/* Announcement integrated into the card */}
-            <div className='bg-yellow-100 text-yellow-800 p-4'>
-              <p className='font-semibold'>
-                📣 Admissions will begin shortly — stay tuned for updates!
-              </p>
+            <a
+              href='https://wa.me/917506030742'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='block bg-yellow-50 text-yellow-700 p-4 font-bold text-center hover:bg-yellow-100 transition-colors'
+            >
+              <FaWhatsapp className='inline-block mr-2' />
+              Contact This Branch
+            </a>
+          </motion.div>
+
+          {/* --- Card 4: 3rd Branch (Runwal Garden, Dombivli East) --- */}
+          <motion.div
+            className='bg-gray-50 rounded-2xl shadow-lg overflow-hidden border-t-8 border-pink-500 flex flex-col'
+            whileHover={{ y: -10, scale: 1.03 }}
+          >
+            <div className='p-6 flex-grow'>
+              <h3 className='text-xl font-nunito font-bold text-pink-700 mb-3'>
+                3rd Branch – Runwal Garden, Dombivli (East)
+              </h3>
+              <div className='space-y-4'>
+                <p className='flex items-start text-gray-700'>
+                  <FiMapPin className='mr-3 mt-1 text-pink-500 flex-shrink-0' />
+                  <span>Runwal Garden, Dombivli (East)</span>
+                </p>
+                <p className='flex items-center text-gray-700'>
+                  <FiPhone className='mr-3 text-pink-500' />
+                  <span>7506030742</span>
+                </p>
+              </div>
             </div>
+            <a
+              href='https://wa.me/917506030742'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='block bg-pink-50 text-pink-700 p-4 font-bold text-center hover:bg-pink-100 transition-colors'
+            >
+              <FaWhatsapp className='inline-block mr-2' />
+              Contact This Branch
+            </a>
           </motion.div>
         </div>
         {/* </AnimatedSection> */}
